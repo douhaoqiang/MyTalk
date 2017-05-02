@@ -81,7 +81,7 @@ public class EaseConversationListFragment extends EaseBaseFragment {
     }
     
     @Override
-    protected void setUpView() {
+    protected void setViewData() {
         conversationList.addAll(loadConversationList());
         conversationListView.init(conversationList);
         

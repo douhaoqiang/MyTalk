@@ -34,7 +34,7 @@
         <attr name="numColumns" format="integer"/>
     </declare-styleable>
     
-    <declare-styleable name="EaseTitleBar">
+    <declare-styleable name="ChatTitleBar">
         <attr name="titleBarTitle" format="string"/>
         <attr name="titleBarLeftImage" format="reference"/>
         <attr name="titleBarRightImage" format="reference"/>

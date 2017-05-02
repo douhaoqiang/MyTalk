@@ -180,7 +180,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-    protected void setUpView() {
+    protected void setViewData() {
         titleBar.setTitle(toChatUsername);
         if (chatType == EaseConstant.CHATTYPE_SINGLE) {
             // set title

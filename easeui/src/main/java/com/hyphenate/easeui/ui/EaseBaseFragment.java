@@ -8,10 +8,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hyphenate.easeui.R;
-import com.hyphenate.easeui.widget.EaseTitleBar;
+import com.hyphenate.easeui.widget.ChatTitleBar;
 
 public abstract class EaseBaseFragment extends Fragment {
-    protected EaseTitleBar titleBar;
+    protected ChatTitleBar titleBar;
     protected InputMethodManager inputMethodManager;
 
     @Override
@@ -19,10 +19,10 @@ public abstract class EaseBaseFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         inputMethodManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         //noinspection ConstantConditions
-        titleBar = (EaseTitleBar) getView().findViewById(R.id.title_bar);
+        titleBar = (ChatTitleBar) getView().findViewById(R.id.title_bar);
         
         initView();
-        setUpView();
+        setViewData();
     }
     
     public void showTitleBar(){
@@ -47,7 +47,7 @@ public abstract class EaseBaseFragment extends Fragment {
     
     protected abstract void initView();
     
-    protected abstract void setUpView();
+    protected abstract void setViewData();
 
 
 }

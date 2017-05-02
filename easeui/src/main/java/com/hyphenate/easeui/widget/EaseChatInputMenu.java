@@ -161,7 +161,7 @@ public class EaseChatInputMenu extends LinearLayout {
     /**
      * register menu item
      * 
-     * @param name
+     * @param nameRes
      *            resource id of item name
      * @param drawableRes
      *            background of item
@@ -209,9 +209,7 @@ public class EaseChatInputMenu extends LinearLayout {
 
             @Override
             public boolean onPressToSpeakBtnTouch(View v, MotionEvent event) {
-                if(listener != null){
-                    return listener.onPressToSpeakBtnTouch(v, event);
-                }
+
                 return false;
             }
         });
@@ -224,10 +222,6 @@ public class EaseChatInputMenu extends LinearLayout {
                 if(emojicon.getType() != EaseEmojicon.Type.BIG_EXPRESSION){
                     if(emojicon.getEmojiText() != null){
                         chatPrimaryMenu.onEmojiconInputEvent(EaseSmileUtils.getSmiledText(context,emojicon.getEmojiText()));
-                    }
-                }else{
-                    if(listener != null){
-                        listener.onBigExpressionClicked(emojicon);
                     }
                 }
             }
@@ -338,26 +332,11 @@ public class EaseChatInputMenu extends LinearLayout {
 
     public interface ChatInputMenuListener {
         /**
-         * when send message button pressed
+         * 发送消息
          * 
-         * @param content
-         *            message content
+         * @param content 消息内容
          */
         void onSendMessage(String content);
-        
-        /**
-         * when big icon pressed
-         * @param emojicon
-         */
-        void onBigExpressionClicked(EaseEmojicon emojicon);
-
-        /**
-         * when speak button is touched
-         * @param v
-         * @param event
-         * @return
-         */
-        boolean onPressToSpeakBtnTouch(View v, MotionEvent event);
     }
     
 }

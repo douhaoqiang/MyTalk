@@ -15,7 +15,7 @@ import com.hyphenate.easeui.R;
  * title bar
  *
  */
-public class EaseTitleBar extends RelativeLayout{
+public class ChatTitleBar extends RelativeLayout{
 
     protected RelativeLayout leftLayout;
     protected ImageView leftImage;
@@ -24,16 +24,16 @@ public class EaseTitleBar extends RelativeLayout{
     protected TextView titleView;
     protected RelativeLayout titleLayout;
 
-    public EaseTitleBar(Context context, AttributeSet attrs, int defStyle) {
+    public ChatTitleBar(Context context, AttributeSet attrs, int defStyle) {
         this(context, attrs);
     }
 
-    public EaseTitleBar(Context context, AttributeSet attrs) {
+    public ChatTitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context, attrs);
     }
 
-    public EaseTitleBar(Context context) {
+    public ChatTitleBar(Context context) {
         super(context);
         init(context, null);
     }
@@ -52,20 +52,20 @@ public class EaseTitleBar extends RelativeLayout{
     
     private void parseStyle(Context context, AttributeSet attrs){
         if(attrs != null){
-            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EaseTitleBar);
-            String title = ta.getString(R.styleable.EaseTitleBar_titleBarTitle);
+            TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ChatTitleBar);
+            String title = ta.getString(R.styleable.ChatTitleBar_titleBarTitle);
             titleView.setText(title);
             
-            Drawable leftDrawable = ta.getDrawable(R.styleable.EaseTitleBar_titleBarLeftImage);
+            Drawable leftDrawable = ta.getDrawable(R.styleable.ChatTitleBar_titleBarLeftImage);
             if (null != leftDrawable) {
                 leftImage.setImageDrawable(leftDrawable);
             }
-            Drawable rightDrawable = ta.getDrawable(R.styleable.EaseTitleBar_titleBarRightImage);
+            Drawable rightDrawable = ta.getDrawable(R.styleable.ChatTitleBar_titleBarRightImage);
             if (null != rightDrawable) {
                 rightImage.setImageDrawable(rightDrawable);
             }
         
-            Drawable background = ta.getDrawable(R.styleable.EaseTitleBar_titleBarBackground);
+            Drawable background = ta.getDrawable(R.styleable.ChatTitleBar_titleBarBackground);
             if(null != background) {
                 titleLayout.setBackgroundDrawable(background);
             }
