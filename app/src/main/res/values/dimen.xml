@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--通用5dp-->
+    <dimen name="general_5dp">5dp</dimen>
+    <!--通用10dp-->
+    <dimen name="general_10dp">10dp</dimen>
+    <!--通用20dp-->
+    <dimen name="general_20dp">20dp</dimen>
+    <!--通用字体大小-导航栏-->
+    <dimen name="general_textsize_tar">18dp</dimen>
+    <!--通用字体大小-页面-->
+    <dimen name="general_textsize_page">15dp</dimen>
+
+</resources>
