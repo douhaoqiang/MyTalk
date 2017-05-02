@@ -29,4 +29,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/hyphenatechat_3.3.1.jar')
     compile project(':easeui')
+    compile 'com.google.code.gson:gson:2.8.0'
 }

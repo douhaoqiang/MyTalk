@@ -2,12 +2,16 @@ package com.dhq.mytalk;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.dhq.mytalk.entity.UserInfo;
+import com.dhq.mytalk.response.BaseResponse;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -17,6 +21,7 @@ import com.hyphenate.chat.EMMessage;
 import com.hyphenate.exceptions.HyphenateException;
 import com.hyphenate.util.NetUtils;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,13 +40,31 @@ public class MainActivity extends AppCompatActivity {
     /**
      *
      */
-    private void initListener(){
+    private void initListener() {
 
+        findViewById(R.id.parse).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ParseUtil.parseFromJson(UserInfo.class, new ParseUtil.CallBack<UserInfo>() {
+                    @Override
+                    public void success(UserInfo userInfo) {
+                        Log.e("infe",userInfo.getName());
+                    }
+
+                    @Override
+                    public void fail() {
+
+                    }
+                });
+
+            }
+        });
 
         findViewById(R.id.regedit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                regedit();
+
             }
         });
 
@@ -55,14 +78,24 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.chat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MainActivity.this,ChatActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChatActivity.class);
                 intent.putExtra("userId", "18310631592");
                 startActivity(intent);
             }
         });
     }
 
-    private void regedit(){
+
+    public <T> BaseResponse<T> parseJson(String jsonStr) {
+        Gson gson = new Gson();
+        Type jsonType = new TypeToken<BaseResponse<T>>() {
+        }.getType();
+        return gson.fromJson(jsonStr, jsonType);
+//        return null;
+    }
+
+
+    private void regedit() {
         final ProgressDialog pd = new ProgressDialog(this);
         pd.setMessage("数据请求中");
         pd.show();
@@ -71,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 try {
                     // call method in SDK
-                    EMClient.getInstance().createAccount("18310631593","123456");//同步方法
+                    EMClient.getInstance().createAccount("18310631593", "123456");//同步方法
                     runOnUiThread(new Runnable() {
                         public void run() {
                             if (!MainActivity.this.isFinishing())
@@ -85,16 +118,16 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             if (!MainActivity.this.isFinishing())
                                 pd.dismiss();
-                            int errorCode=e.getErrorCode();
-                            if(errorCode== EMError.NETWORK_ERROR){
+                            int errorCode = e.getErrorCode();
+                            if (errorCode == EMError.NETWORK_ERROR) {
                                 Toast.makeText(getApplicationContext(), "网络失败", Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_ALREADY_EXIST){
+                            } else if (errorCode == EMError.USER_ALREADY_EXIST) {
                                 Toast.makeText(getApplicationContext(), "该用户已经存在", Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
+                            } else if (errorCode == EMError.USER_AUTHENTICATION_FAILED) {
                                 Toast.makeText(getApplicationContext(), "没有注册权限", Toast.LENGTH_SHORT).show();
-                            }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
-                                Toast.makeText(getApplicationContext(), "非法参数",Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else if (errorCode == EMError.USER_ILLEGAL_ARGUMENT) {
+                                Toast.makeText(getApplicationContext(), "非法参数", Toast.LENGTH_SHORT).show();
+                            } else {
                                 Toast.makeText(getApplicationContext(), "失败", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -108,8 +141,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 登录
      */
-    private void login(){
-        EMClient.getInstance().login("18310631593","123456",new EMCallBack() {//回调
+    private void login() {
+        EMClient.getInstance().login("18310631593", "123456", new EMCallBack() {//回调
             @Override
             public void onSuccess() {
                 EMClient.getInstance().groupManager().loadAllGroups();
@@ -133,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 退出登录
      */
-    private void loginOut(){
+    private void loginOut() {
         EMClient.getInstance().logout(true, new EMCallBack() {
 
             @Override
@@ -158,9 +191,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     *  连接状态监听
+     * 连接状态监听
      */
-    private void initEMListener(){
+    private void initEMListener() {
         //注册一个监听连接状态的listener
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
 
@@ -196,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
 
 
-
     }
 
 
@@ -206,22 +238,23 @@ public class MainActivity extends AppCompatActivity {
         public void onConnected() {
 
         }
+
         @Override
         public void onDisconnected(final int error) {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if(error == EMError.USER_REMOVED){
+                    if (error == EMError.USER_REMOVED) {
                         // 显示帐号已经被移除
 
-                    }else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                         // 显示帐号在其他设备登录
 
                     } else {
                         if (NetUtils.hasNetwork(MainActivity.this)) {
                             //连接不到聊天服务器
 
-                        }else {
+                        } else {
                             //当前网络不可用，请检查网络设置
 
                         }
@@ -233,16 +266,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 发送消息（一对一消息 单聊）
-     * @param content       消息内容
-     * @param chatUserId    聊天人id
+     *
+     * @param content    消息内容
+     * @param chatUserId 聊天人id
      */
-    private void sendUserMsg(String content,String chatUserId){
+    private void sendUserMsg(String content, String chatUserId) {
         //创建一条文本消息，content为消息文字内容，chatUserId为对方用户或者群聊的id，后文皆是如此
         EMMessage message = EMMessage.createTxtSendMessage(content, chatUserId);
         //如果是群聊，设置chattype，默认是单聊
         message.setChatType(EMMessage.ChatType.Chat);
         //消息发送状态监听
-        message.setMessageStatusCallback(new EMCallBack(){
+        message.setMessageStatusCallback(new EMCallBack() {
             @Override
             public void onSuccess() {
 
@@ -265,16 +299,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * 发送消息（一对多消息 群聊）
-     * @param content       消息内容
-     * @param chatUserId    群聊id
+     *
+     * @param content    消息内容
+     * @param chatUserId 群聊id
      */
-    private void sendGroupMsg(String content,String chatUserId){
+    private void sendGroupMsg(String content, String chatUserId) {
         //创建一条文本消息，content为消息文字内容，chatUserId为对方用户或者群聊的id，后文皆是如此
         EMMessage message = EMMessage.createTxtSendMessage(content, chatUserId);
         //如果是群聊，设置chattype，默认是单聊
         message.setChatType(EMMessage.ChatType.GroupChat);
         //消息发送状态监听
-        message.setMessageStatusCallback(new EMCallBack(){
+        message.setMessageStatusCallback(new EMCallBack() {
             @Override
             public void onSuccess() {
 

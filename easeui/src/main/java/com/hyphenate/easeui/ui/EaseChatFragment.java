@@ -132,8 +132,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
      * init view
      */
     protected void initView() {
-        // hold to record voice
-        //noinspection ConstantConditions
+
         voiceRecorderView = (EaseVoiceRecorderView) getView().findViewById(R.id.voice_recorder);
 
         // message list layout
@@ -154,21 +153,6 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
                 sendTextMessage(content);
             }
 
-            @Override
-            public boolean onPressToSpeakBtnTouch(View v, MotionEvent event) {
-                return voiceRecorderView.onPressToSpeakBtnTouch(v, event, new EaseVoiceRecorderCallback() {
-                    
-                    @Override
-                    public void onVoiceRecordComplete(String voiceFilePath, int voiceTimeLength) {
-                        sendVoiceMessage(voiceFilePath, voiceTimeLength);
-                    }
-                });
-            }
-
-            @Override
-            public void onBigExpressionClicked(EaseEmojicon emojicon) {
-                sendBigExpressionMessage(emojicon.getName(), emojicon.getIdentityCode());
-            }
         });
 
         swipeRefreshLayout = messageList.getSwipeRefreshLayout();

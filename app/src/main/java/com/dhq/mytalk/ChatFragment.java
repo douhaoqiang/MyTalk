@@ -107,41 +107,13 @@ public class ChatFragment extends ChatBaseFragment implements ChatBaseFragment.E
         }
     }
 
-    @Override
-    protected void registerExtendMenuItem() {
-        //use the menu in base class
-        super.registerExtendMenuItem();
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
-                case REQUEST_CODE_SELECT_VIDEO: //send the video
-                    if (data != null) {
-                        int duration = data.getIntExtra("dur", 0);
-                        String videoPath = data.getStringExtra("path");
-                        File file = new File(PathUtil.getInstance().getImagePath(), "thvideo" + System.currentTimeMillis());
-                        try {
-                            FileOutputStream fos = new FileOutputStream(file);
-                            Bitmap ThumbBitmap = ThumbnailUtils.createVideoThumbnail(videoPath, 3);
-                            ThumbBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-                            fos.close();
-                            sendVideoMessage(videoPath, file.getAbsolutePath(), duration);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-                case REQUEST_CODE_SELECT_FILE: //send the file
-                    if (data != null) {
-                        Uri uri = data.getData();
-                        if (uri != null) {
-                            sendFileByUri(uri);
-                        }
-                    }
-                    break;
+
                 case REQUEST_CODE_SELECT_AT_USER:
                     if (data != null) {
                         String username = data.getStringExtra("username");
